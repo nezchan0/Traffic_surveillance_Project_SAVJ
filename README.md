@@ -1,169 +1,299 @@
-# 🚦 Traffic Detection System - Full Project Overview
+# 🚦 Traffic Surveillance Project
 
-This project consists of two integrated systems:
+A two-server traffic enforcement system that helps traffic officers verify driver and vehicle information quickly using OCR, computer vision, and a centralized MySQL database.
 
-1. **Django Backend (Traffic Project)**
-2. **Flask Real-Time License Plate Detection Server**
+The project has three main parts:
 
-Together, they form a complete pipeline for detecting vehicle license plates and retrieving associated data in real time.
-
----
-
-## 🧠 Project Architecture Overview
-
-```
-[📱 Camera Phone] ---> [🖥️ Flask Detection Server] ---> [🌐 Django Backend] ---> [📱 User Phone]
-         |                        |                           |                      |
-     Video Feed            Plate Detection            Data Fetch API          UI Display
-```
+- **Dummy Data Setup** — prepares the MySQL schema and sample records used by the system.
+- **Server 1: Django (`DL_Detection`)** — handles driver’s license image upload, OCR extraction, database lookup, and API responses.
+- **Server 2: Flask (`Number Plate Detection`)** — monitors live camera input, detects number plates in real time, and fetches vehicle details from Server 1.
 
 ---
 
-## 🔹 1. Django Backend (Traffic Project)
+## 📌 What this project does
 
-### 📌 Purpose
+This project automates two important traffic enforcement workflows:
 
-* Stores vehicle and license data
-* Provides API to fetch vehicle details
-* Admin panel to manage records
+1. **Driver’s License Detection**
+   - Upload a driver’s license image.
+   - Extract details using OCR.
+   - Match the extracted data against the database.
+   - Show owner, license, vehicle, and face details.
 
-### ⚙️ Key Features
-
-* REST API for vehicle lookup
-* MySQL database integration
-* Admin dashboard
-* Dummy data import system
-
-### 🌐 Runs On
-
-* Port **8000**
+2. **Number Plate Detection**
+   - Read live vehicle feed from an IP camera.
+   - Detect number plates in real time using a pre-trained YOLO model.
+   - Cross-check the plate against the database.
+   - Flag suspicious, expired, or wanted records for officers.
 
 ---
 
-## 🔹 2. Flask Detection Server
+## 🧱 Repository Structure
 
-### 📌 Purpose
-
-* Captures live video stream
-* Detects license plates using YOLO
-* Extracts text using EasyOCR
-* Sends detected plates to frontend & Django backend
-
-### ⚙️ Key Features
-
-* Real-time detection
-* SSE (Server-Sent Events) for live updates
-* Multiprocessing for performance
-* Integration with Django API
-
-### 🌐 Runs On
-
-* Port **5000**
-
----
-
-## 📡 System Flow
-
-1. 📱 Camera phone streams video (IP Webcam)
-2. 🖥️ Flask server:
-
-   * Captures video
-   * Detects number plates (YOLO)
-   * Extracts text (OCR)
-3. 🔗 Detected plate is sent to Django API
-4. 🌐 Django returns vehicle details
-5. 📱 User views results in real-time
-
----
-
-## 🔗 Required Links
-
-* **Django Backend (Link 1)** → `http://<laptop-ip>:8000`
-* **Flask Server (Link 2)** → `http://<laptop-ip>:5000`
-* **Video Feed (Link 3)** → `http://<phone-ip>:8080/video`
-
----
-
-## 📶 Network Requirement
-
-All devices must be connected to the **same WiFi network**:
-
-* 💻 Laptop → Runs Django + Flask
-* 📱 Phone 1 → Camera (IP Webcam)
-* 📱 Phone 2 → User Interface
-
----
-
-## ▶️ How to Run (High Level)
-
-### Step 1: Start Django Backend
-
-```bash
-python manage.py runserver
+```text
+Traffic_surveillance_Project/
+├── 1_DummyData/
+├── 2_DL_Detection_Server1/
+├── 3_NumberPlate_Detection_Server2/
+└── TrafficSurveillanceProject_Wireframe_ss/
 ```
 
-### Step 2: Start Flask Server
+### Folder roles
 
-```bash
-python app.py
+- **`1_DummyData/`**  
+  Contains MySQL schema and database import instructions for the sample dataset used by both servers.
+
+- **`2_DL_Detection_Server1/`**  
+  Django backend for driver’s license detection, OCR, admin access, and APIs.
+
+- **`3_NumberPlate_Detection_Server2/`**  
+  Flask application for live number plate detection and real-time alerts.
+
+- **`TrafficSurveillanceProject_Wireframe_ss/`**  
+  Contains architecture diagrams, schema diagram, and UI preview screenshots.
+
+---
+
+## 🧠 High-level architecture
+
+```text
+Mobile / IP Camera
+        │
+        ▼
+Flask Server (Number Plate Detection)
+        │
+        ├── detects plate in live feed
+        ├── flags vehicle status
+        ▼
+Django Server (DL Detection / API Layer)
+        │
+        ├── database lookup
+        ├── vehicle + license data
+        ├── face image / suspicious status
+        ▼
+MySQL Database
 ```
 
----
+### How the two servers work together
 
-## 📱 Usage Order (Important)
-
-On the **user phone**, follow this order:
-
-1. Open **Django Backend (Link 1)**
-2. Open **Video Feed (Link 3)**
-3. Open **Flask Server (Link 2)**
+- **Server 2** continuously watches the road feed.
+- When a plate is detected, **Server 2** calls **Server 1** API.
+- **Server 1** reads the database and returns the relevant vehicle/driver details.
+- The Flask UI displays the result instantly for traffic officers.
 
 ---
 
-## ⚠️ Configuration Checklist
+## ⚙️ Tech Stack
 
-* Update **IP addresses** in Flask code
-* Ensure **YOLO model file (`license_plate_detector.pt`) is present**
-* Install all dependencies
-* Configure database in Django
-* Import dummy data
-
----
-
-## ✅ Final Outcome
-
-* Live video stream processed ✔️
-* License plate detected ✔️
-* Data fetched from backend ✔️
-* Results displayed on user phone ✔️
+- **Frontend/UI:** Django templates, Flask templates
+- **Backend:** Django, Flask
+- **Database:** MySQL
+- **Computer Vision:** OpenCV, YOLO
+- **OCR:** Tesseract OCR
+- **Integration:** REST APIs, IP camera stream, ngrok for public tunneling when needed
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Setup Overview
 
-* **Backend**: Django, Django REST Framework
-* **Detection Server**: Flask
-* **Computer Vision**: OpenCV, YOLO (Ultralytics)
-* **OCR**: EasyOCR, PyTorch
-* **Database**: MySQL
-* **Frontend**: HTML / JavaScript (SSE-based)
+### 1) Dummy Data
+Use the dummy data folder to create and populate the MySQL database.
+
+- Create the database schema
+- Insert sample records
+- Ensure both servers can query the same dataset
+
+### 2) Server 1 — Django
+Server 1 provides:
+
+- Driver’s license image upload
+- OCR-based extraction
+- Database lookup
+- APIs for vehicle details and license details
+- Optional Django admin panel for managing records
+
+### 3) Server 2 — Flask
+Server 2 provides:
+
+- Live number plate detection
+- Real-time vehicle flagging
+- Officer-facing monitoring interface
+- On-demand fetching of vehicle details from Django
+
+> Both servers should point to the same MySQL database and should be configured with the correct local or ngrok URL when needed.
 
 ---
 
-## 📌 Notes
+## 🔌 API Flow
 
-* ❗ Do NOT use `localhost` when accessing from phone → use local IP
-* Ensure ports **8000** and **5000** are open
-* Use `use_reloader=False` in Flask (required for multiprocessing)
-* All devices must be on the same WiFi network
+### Django API endpoints
+
+- `POST /get_vehicle_details/`
+  - Input: number plate
+  - Output: vehicle details, suspicious status, face image URL
+
+- `POST /get_data_from_license_image/`
+  - Input: license image file
+  - Output: owner details, DL details, vehicle details, suspicious person details, face image URL
+
+### Flask integration
+
+- Flask sends the detected number plate to Django.
+- Django returns the vehicle and person status.
+- Flask shows the status on the monitoring page.
 
 ---
 
-## 🎯 Summary
+## 🎯 Status Color Meaning
 
-This project simulates a **real-time traffic monitoring system**:
+### Driver’s License detection
 
-* Detects vehicles using camera feed
-* Extracts license plate numbers
-* Fetches vehicle details from backend
-* Displays everything live on a mobile device
+- **Green** → no pending issues or bad history
+- **Orange** → pending / expired PUC or similar issue
+- **Red** → wanted currently
+
+### Number plate detection
+
+- **Yellow** → minor felony such as expired PUC
+- **Orange** → bad history
+- **Red** → wanted person
+
+---
+
+## 🖼️ Architecture & Schema
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/1_Project_Architecture_Details.png" alt="Project Architecture" width="100%">
+      <br><sub>Project Architecture</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/2_TrafficProject_Schema.png" alt="Traffic Project Schema" width="100%">
+      <br><sub>Database Schema</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 📱 DL Detection — Mobile UI Preview
+
+### Landing page
+
+<img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/1.DL_Detection_LandingPage.jpg" alt="DL Detection Landing Page" width="100%">
+
+### License details previews
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/2.DL_Detection_Person1Details_Green.jpg" alt="Person 1 Details Green" width="100%">
+      <br><sub>Person 1 — Green</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/3.DL_Detection_Person1DetailsContinued_Green.jpg" alt="Person 1 Details Continued Green" width="100%">
+      <br><sub>Person 1 — Continued</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/4.DL_Detection_Person2Details_Orange.jpg" alt="Person 2 Details Orange" width="100%">
+      <br><sub>Person 2 — Orange</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/5.DL_Detection_Person2DetailsContinued_Orange.jpg" alt="Person 2 Details Continued Orange" width="100%">
+      <br><sub>Person 2 — Continued</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/6.DL_Detection_Person3Details_Red.jpg" alt="Person 3 Details Red" width="100%">
+      <br><sub>Person 3 — Red</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/7.DL_Detection_Person3DetailsContinued_Red.jpg" alt="Person 3 Details Continued Red" width="100%">
+      <br><sub>Person 3 — Continued</sub>
+    </td>
+  </tr>
+</table>
+
+### Recently accessed persons
+
+<img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/8.DL_Detection_Recently_Asscessed_PersonsList.jpg" alt="Recently Accessed Persons List" width="100%">
+
+---
+
+## 🚔 Number Plate Detection — Mobile UI Preview
+
+### Detection flow
+
+<table>
+  <tr>
+    <td align="center" width="33.33%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_NumberPlate_Detection_Server2_Application/1.NP_Detection_Detecting_1st_flagged_car.jpg" alt="Detecting 1st flagged car" width="100%">
+      <br><sub>Detecting 1st flagged car</sub>
+    </td>
+    <td align="center" width="33.33%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_NumberPlate_Detection_Server2_Application/2.NP_Detection_Detecting_2nd_flagged_car.jpg" alt="Detecting 2nd flagged car" width="100%">
+      <br><sub>Detecting 2nd flagged car</sub>
+    </td>
+    <td align="center" width="33.33%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_NumberPlate_Detection_Server2_Application/3.NP_Detection_Detecting_4th_flagged_car.jpg" alt="Detecting 4th flagged car" width="100%">
+      <br><sub>Detecting 4th flagged car</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33.33%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_NumberPlate_Detection_Server2_Application/4.NP_Detection_Viewing_FlaggedVechicle_Details_Yellow.jpg" alt="Flagged vehicle details yellow" width="100%">
+      <br><sub>Vehicle details — Yellow</sub>
+    </td>
+    <td align="center" width="33.33%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_NumberPlate_Detection_Server2_Application/5.NP_Detection_Viewing_FlaggedVechicle_Details_Orange.jpg" alt="Flagged vehicle details orange" width="100%">
+      <br><sub>Vehicle details — Orange</sub>
+    </td>
+    <td align="center" width="33.33%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_NumberPlate_Detection_Server2_Application/6.NP_Detection_Viewing_FlaggedVechicle_Details_Red.jpg" alt="Flagged vehicle details red" width="100%">
+      <br><sub>Vehicle details — Red</sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🧩 Project Summary
+
+This project combines database-driven verification and real-time computer vision to assist traffic officers in making faster and more reliable decisions.
+
+- **Server 1** focuses on driver identity and document verification.
+- **Server 2** focuses on live road monitoring and vehicle flagging.
+- **MySQL** acts as the shared data layer.
+- The UI is designed for practical, mobile-friendly field usage.
+
+---
+
+## 📎 Notes
+
+- Use the correct local IP or ngrok URL when connecting Server 2 to Server 1.
+- Make sure the phone camera and laptop are on the same Wi-Fi network for live stream-based use.
+- The same database must be available to both servers.
+- Tesseract OCR and YOLO dependencies must be installed correctly for the two detection flows.
+
+---
+
+## ✨ Too cool to miss planning diagrams
+
+The planning-stage diagrams below were created during early design work and are included here as a nice record of the project’s evolution, even though they are not central to the current runtime scope.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/0_PlanningStageDetails_Project_Device&Implementation_Details.png" alt="Planning Stage Device and Implementation Details" width="100%">
+      <br><sub>Planning Stage — Device & Implementation Details</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/0_PlanningStageDetials_Project_Flow_Details.png" alt="Planning Stage Project Flow Details" width="100%">
+      <br><sub>Planning Stage — Project Flow Details</sub>
+    </td>
+  </tr>
+</table>
