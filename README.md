@@ -146,34 +146,25 @@ Server 2 provides:
 
 ## 🎯 Status Color Meaning
 
-### Driver’s License detection
 
-- **Green** → no pending issues or bad history
-- **Orange** → pending / expired PUC or similar issue
+- **Green** & **Yellow** → minor felony such as expired PUC
+- **Orange** → bad history
 - **Red** → wanted currently
 
-### Number plate detection
 
-- **Yellow** → minor felony such as expired PUC
-- **Orange** → bad history
-- **Red** → wanted person
 
 ---
 
 ## 🖼️ Architecture & Schema
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/1_Project_Architecture_Details.png" alt="Project Architecture" width="100%">
-      <br><sub>Project Architecture</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/2_TrafficProject_Schema.png" alt="Traffic Project Schema" width="100%">
-      <br><sub>Database Schema</sub>
-    </td>
-  </tr>
-</table>
+###Project Architecture
+
+![Architecture](TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/1_Project_Architecture_Details.png)
+
+###Project Database Schema
+
+![DatabaseSchema](TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/2_TrafficProject_Schema.png)
+
 
 ---
 
