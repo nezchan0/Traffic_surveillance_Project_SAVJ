@@ -1,4 +1,4 @@
-# 🚦 Traffic Surveillance Project Database Setup Guide
+# 🚦 Traffic Surveillance Project Dummy Data Setup Guide
 
 This guide explains how to set up the MySQL database for the Traffic
 Project. You can follow either the **Short Method (recommended)** or the
