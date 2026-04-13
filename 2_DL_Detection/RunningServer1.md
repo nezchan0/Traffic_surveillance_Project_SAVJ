@@ -179,13 +179,13 @@ SITE_URL = "http://127.0.0.1:8000"
 
 ## ✅ Final Checklist
 
--   Virtual environment created & activated ✔️\
--   Dependencies installed ✔️\
--   Tesseract configured ✔️\
--   Database configured ✔️\
--   Dummy data added ✔️\
--   Migrations applied ✔️\
--   Server running ✔️\
+-   Virtual environment created & activated ✔️
+-   Dependencies installed ✔️
+-   Tesseract configured ✔️
+-   Database configured ✔️
+-   Dummy data added ✔️
+-   Migrations applied ✔️
+-   Server running ✔️
 -   Frontend + APIs working ✔️
 
 ------------------------------------------------------------------------
