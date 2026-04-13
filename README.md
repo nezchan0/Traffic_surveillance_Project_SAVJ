@@ -280,4 +280,4 @@ The planning-stage diagrams below were created during early design work and are 
 ![Project Flow Details](TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/0_PlanningStageDetials_Project_Flow_Details.png)
 
 ### Planning Stage — Device & Implementation Details
-
+![Planning Stage — Device & Implementation Details](TrafficSurveillanceProject_Wireframe_ss/Images_Architecture/0_PlanningStageDetials_Project_Flow_Details.png)
