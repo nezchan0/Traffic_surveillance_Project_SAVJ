@@ -52,7 +52,7 @@ server1/TrafficProject/myapp/utils/extract_license_number_from_image.py
 
 Before running the server1, populate the database using instruction given in this file:
 
-    Traffic_surveillance_Project_SAVJ/1_DummyData/Importing_Dummy_Data.md
+    ../1_DummyData/Importing_Dummy_Data.md
 
 ------------------------------------------------------------------------
 
