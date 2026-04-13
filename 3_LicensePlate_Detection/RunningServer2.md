@@ -1,24 +1,25 @@
-# 🚀 Flask License Plate Detection Setup Guide
+# 🚦 Traffic Surveillance - Server 2 (Number Plate Detection) - Setup guide
 
-Follow these steps to properly set up and run the Flask-based License
-Plate Detection system.
+Follow the steps below to set up and run the Server 2 properly.
 
 ------------------------------------------------------------------------
 
 ## 🐍 Step 1: Create Virtual Environment
 
-Create a virtual environment (if not already created):
+Create a virtual environment:
 
 ``` bash
 python -m venv venv
 venv\Scripts\activate
 ```
 
+-   This will isolate dependencies for the Flask application.
+
 ------------------------------------------------------------------------
 
-## 📦 Step 2: Install Requirements
+## 📦 Step 2: Install Dependencies
 
-Install all dependencies:
+Install all required packages:
 
 ``` bash
 pip install -r requirements.txt
@@ -30,77 +31,123 @@ pip install -r requirements.txt
 
 Update the following variables in your Flask script:
 
--   **Django Backend URL (Port 8000)** → `BaseURL`
--   **Video Source URL (IP Camera)** → `video_source`
-
-Example:
+### 🔧 1. Django Server (Server 1 URL)
 
 ``` python
-video_source = 'https://<your-phone-ip>:8080/video'
 BaseURL = "http://127.0.0.1:8000"
+# BaseURL = "https://your-ngrok-url.ngrok-free.app"
+```
+
+-   This should point to Server 1 (DL Detection - Django)
+
+------------------------------------------------------------------------
+
+### 🔧 2. API Endpoint
+
+``` python
+APISITEURL = f"{BaseURL}/TrafficProject/api/vehicle-details/"
 ```
 
 ------------------------------------------------------------------------
 
-## 📡 Step 4: Network Setup
+### 🔧 3. IP Camera URL
 
-Make sure all devices are connected to the **same WiFi network**:
+``` python
+video_source = "https://<your-phone-ip>:8080/video"
+```
 
--   💻 Laptop → Flask Server
--   📱 Phone 1 → Camera (IP Webcam)
--   📱 Phone 2 → User Interface
-
-------------------------------------------------------------------------
-
-## 🔗 Step 5: Important Links
-
--   **Link 1 (Django Backend)** → `http://<laptop-ip>:8000`
--   **Link 2 (Flask Server)** → `http://<laptop-ip>:5000`
--   **Link 3 (Video Feed)** → `http://<phone-ip>:8080/video`
+⚠️ VERY IMPORTANT: - Mobile phone (camera) and laptop (Flask server)
+MUST be on the same WiFi network
 
 ------------------------------------------------------------------------
 
-## ▶️ Step 6: Run Servers
+## 🌐 Step 4: Network Configuration
 
-### Start Django Server (Port 8000)
+### 🏠 Case 1: Same Network (Localhost Setup)
+
+-   http://127.0.0.1:8000 (Django)
+-   http://127.0.0.1:5000 (Flask)
+
+------------------------------------------------------------------------
+
+### 🌍 Case 2: Different Networks (Using Ngrok)
 
 ``` bash
-python manage.py runserver
+ngrok http 8000
 ```
 
-### Start Flask Server (Port 5000)
+``` python
+BaseURL = "https://your-ngrok-url.ngrok-free.app"
+```
+
+------------------------------------------------------------------------
+
+## 📡 Step 5: Important Links
+
+-   Django Backend → `http://<laptop-ip>:8000`
+-   Flask App → `http://<laptop-ip>:5000`
+-   IP Camera → `http://<phone-ip>:8080/video`
+
+------------------------------------------------------------------------
+
+## ▶️ Step 6: Run the Server
 
 ``` bash
-python app.py
+python main.py
 ```
 
 ------------------------------------------------------------------------
 
-## 📱 Step 7: Usage Flow (Very Important)
+## 🖥️ Step 7: Frontend Interface
 
-On the **user phone**, follow this order:
+Open the following on a user phone (ensure phone and laptop are on the same WiFi):
 
-1.  Open **Link 1 (Django backend)**
-2.  Open **Link 3 (Video stream)**
-3.  Finally, open **Link 2 (Flask app)**
+    http://<laptop-ip>:5000/
+
+### 🚔 What this interface does:
+
+- Provides a **live camera feed** from the IP camera  
+- Designed for **real-time monitoring (e.g., police usage)**  
+
+- Whenever a vehicle is detected and flagged by the Flask server:
+  - Its **details are instantly fetched from Django backend**
+  - Displayed immediately on the interface  
+
+- This allows officers to:
+  - View the **vehicle number**
+  - See **suspicious/felony details**
+  - Take **immediate action (e.g., stop the vehicle)**  
+
+- UI also supports:
+  - Click to view **full vehicle + owner details**
+  - Face image display for quick identification
 
 ------------------------------------------------------------------------
 
-## 🎯 Final Notes
+## 📱 Step 8: Usage Flow
 
--   Make sure ports **8000** and **5000** are accessible.
--   Ensure correct IP addresses are used (not localhost when using
-    phone).
--   YOLO model file (`license_plate_detector.pt`) must be present.
--   Tesseract / EasyOCR dependencies must be properly installed.
+1.  Start Django Server
+2.  Start Flask Server
+3.  Open Flask UI 
+4.  Ensure camera stream works
 
 ------------------------------------------------------------------------
 
-## ✅ Outcome
+## ⚠️ Important Notes
 
--   Live video stream detected ✔️
--   License plates extracted ✔️
--   Data sent to Django backend ✔️
--   Results visible on user phone ✔️
+-   Both servers must run together
+-   Correct API URL must be set
+-   YOLO model file required
+-   Same WiFi required
+
+------------------------------------------------------------------------
+
+## ✅ Final Checklist
+
+-   Virtual env ✔️
+-   Dependencies ✔️
+-   API configured ✔️
+-   Camera working ✔️
+-   Detection running ✔️
 
 ------------------------------------------------------------------------
