@@ -170,10 +170,11 @@ Server 2 provides:
 
 ## 📱 DL Detection — Mobile UI Preview
 
+<center>
 ### Landing page
 
 <img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/1.DL_Detection_LandingPage.jpg" alt="DL Detection Landing Page" width="45%">
-
+</center>
 ### License details previews
 
 <table>
@@ -209,10 +210,11 @@ Server 2 provides:
   </tr>
 </table>
 
+<center>
 ### Recently accessed persons
 
-<img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/8.DL_Detection_Recently_Asscessed_PersonsList.jpg" alt="Recently Accessed Persons List" width="100%">
-
+<img src="TrafficSurveillanceProject_Wireframe_ss/Images_DL_detection_Server1_Application/8.DL_Detection_Recently_Asscessed_PersonsList.jpg" alt="Recently Accessed Persons List" width="45%">
+</center>
 ---
 
 ## 🚔 Number Plate Detection — Mobile UI Preview
