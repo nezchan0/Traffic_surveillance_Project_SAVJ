@@ -144,6 +144,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.ngrok-free.app',  # Trust all subdomains of ngrok-free.app
 ]
 
-SITE_URL="https://20c3-2404-ba00-fd01-db4e-b5e1-541d-be3d-f08a.ngrok-free.app"
+#update the server1 siteurl based on using locally or using ngrok.
+SITE_URL="http://127.0.0.1:8000"
 #SITE_URL = "https://9d99-2404-ba00-fd01-b37d-495b-a4b0-ded7-de47.ngrok-free.app"
 
